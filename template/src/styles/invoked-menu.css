@@ -491,6 +491,37 @@ body.drawerOpened {
   list-style: none;
 }
 
+/* Returner — full-width row highlight without changing row spacing/size */
+.v3-nav-row--returner {
+  position: relative;
+  isolation: isolate;
+}
+
+.v3-nav-row--returner::before {
+  content: '';
+  position: absolute;
+  top: -6px;
+  bottom: -6px;
+  left: calc(-1 * var(--spacing-4));
+  right: calc(-1 * var(--spacing-4));
+  background-color: var(--nav-link-returner-bg, var(--color-white));
+  z-index: -1;
+}
+
+.v3-l2__sub-list > .v3-nav-row--returner::before,
+.v3-l2__links > .v3-nav-row--returner::before,
+.v3-l3__links > .v3-nav-row--returner::before {
+  top: -10px;
+  bottom: -10px;
+}
+
+/* Keep returner visible during nav-enter pre-states */
+.v3-nav-row--returner.nav-enter-group__item,
+.v3-nav-row--returner {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
 /* V3 drill — L1 base + sliding L2/L3 panels (in-flow when active; body scrolls all) */
 .invoked-menu__stack {
   position: relative;

@@ -11,6 +11,7 @@ import {
   shouldShowNavLinkChevron,
 } from '../../../utils/navLinkChevron'
 import { toNavHeadlineCase } from '../../../utils/toNavHeadlineCase'
+import { navLinkReturnerClass } from '../../../utils/navLinkReturner'
 import {
   NavEnterGroup,
   getNavLinkEnterPreset,
@@ -27,6 +28,7 @@ type DrillSubCategorySectionsProps = {
   leadingEyebrow?: string
   animDirection: NavAnimDirection
   mountKey: string
+  returnerLinkId?: string | null
   onSelectSub: (subId: string, title: string) => void
 }
 
@@ -38,6 +40,7 @@ export function DrillSubCategorySections({
   leadingEyebrow,
   animDirection,
   mountKey,
+  returnerLinkId = null,
   onSelectSub,
 }: DrillSubCategorySectionsProps) {
   const ctx: NavEyebrowContext = {
@@ -98,7 +101,10 @@ export function DrillSubCategorySections({
               const rowLabel = getV3L2LinkLabel(sub.id, sub.label)
 
               return (
-                <li key={sub.id}>
+                <li
+                  key={sub.id}
+                  className={navLinkReturnerClass(sub.id, returnerLinkId) || undefined}
+                >
                   <button
                     type="button"
                     onClick={() => {

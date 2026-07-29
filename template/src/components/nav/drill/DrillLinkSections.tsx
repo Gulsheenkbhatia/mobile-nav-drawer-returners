@@ -1,11 +1,12 @@
-import type { MenuLinkSection } from '../../../data/mobileMenuData'
+import type { MenuLink, MenuLinkSection } from '../../../data/mobileMenuData'
 import {
   shouldShowSectionEyebrow,
   type NavEyebrowContext,
 } from '../../../data/navEyebrowVisibility'
 import { filterDuplicateNavLinks } from '../../../utils/navLinkDedup'
-import { isViewAllNavLink } from '../../../utils/navLinkChevron'
 import { toNavHeadlineCase } from '../../../utils/toNavHeadlineCase'
+import { isNavigableMenuLink } from '../../../utils/navLinkNavigate'
+import { navLinkReturnerClass } from '../../../utils/navLinkReturner'
 import {
   NavEnterGroup,
   getNavLinkEnterPreset,
@@ -19,6 +20,38 @@ type DrillLinkSectionsProps = {
   screenTitle: string
   animDirection: NavAnimDirection
   mountKey: string
+  returnerLinkId?: string | null
+  onNavigateLink?: (link: MenuLink) => void
+}
+
+function DrillNavLinkRow({
+  link,
+  returnerLinkId,
+  onNavigateLink,
+}: {
+  link: MenuLink
+  returnerLinkId?: string | null
+  onNavigateLink?: (link: MenuLink) => void
+}) {
+  const rowClassName = navLinkReturnerClass(link.id, returnerLinkId)
+
+  return (
+    <li className={rowClassName || undefined}>
+      <button
+        type="button"
+        data-nav-link-id={link.id}
+        onClick={(e) => {
+          if (isNavigableMenuLink(link)) {
+            onNavigateLink?.(link)
+          }
+          e.preventDefault()
+        }}
+        className="v1-nav-link block w-full text-left font-extended text-[16px] leading-[1.4] tracking-[0.2px] text-coach-black"
+      >
+        <span>{toNavHeadlineCase(link.label)}</span>
+      </button>
+    </li>
+  )
 }
 
 /** L2/L3 flat link lists — one or more sections with 32px between groups. */
@@ -29,6 +62,8 @@ export function DrillLinkSections({
   screenTitle,
   animDirection,
   mountKey,
+  returnerLinkId = null,
+  onNavigateLink,
 }: DrillLinkSectionsProps) {
   const ctx: NavEyebrowContext = {
     depth,
@@ -101,24 +136,12 @@ export function DrillLinkSections({
               }
 
               return (
-                <li key={row.key}>
-                  <button
-                    type="button"
-                    onClick={(e) => {
-                      if (
-                        row.link.href ||
-                        isViewAllNavLink(row.link.label, row.link.id)
-                      ) {
-                        e.preventDefault()
-                        return
-                      }
-                      e.preventDefault()
-                    }}
-                    className="v1-nav-link block w-full text-left font-extended text-[16px] leading-[1.4] tracking-[0.2px] text-coach-black"
-                  >
-                    <span>{toNavHeadlineCase(row.link.label)}</span>
-                  </button>
-                </li>
+                <DrillNavLinkRow
+                  key={row.key}
+                  link={row.link}
+                  returnerLinkId={returnerLinkId}
+                  onNavigateLink={onNavigateLink}
+                />
               )
             })}
           </NavEnterGroup>

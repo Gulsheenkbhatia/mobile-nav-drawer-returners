@@ -6,6 +6,7 @@ import { NavV3ImageCollage } from './components/nav/v3/NavV3ImageCollage'
 import { NavTemplateGallery } from './components/nav/gallery/NavTemplateGallery'
 import { NavT1PressureGallery } from './components/nav/gallery/NavT1PressureGallery'
 import { NavScrim } from './components/NavScrim'
+import { NavReturnerProvider } from './components/nav/NavReturnerContext'
 
 type GalleryMode = 'nav' | 't1' | null
 
@@ -58,21 +59,23 @@ export default function App() {
   }
 
   return (
-    <NavBrandProvider activeBrand={activeBrand} setActiveBrand={setActiveBrand}>
-      <div className="v1-prototype relative flex min-h-[100dvh] w-full min-w-0 flex-col bg-coach-white font-extended">
-        <NavSearchExposed
-          activeBrand={activeBrand}
-          onBrandChange={setActiveBrand}
-          bagCount={0}
-          alwaysShowBagBadge
-          onMenuSearchClick={() => setMenuOpen(true)}
-        />
+    <NavReturnerProvider>
+      <NavBrandProvider activeBrand={activeBrand} setActiveBrand={setActiveBrand}>
+        <div className="v1-prototype relative flex min-h-[100dvh] w-full min-w-0 flex-col bg-coach-white font-extended">
+          <NavSearchExposed
+            activeBrand={activeBrand}
+            onBrandChange={setActiveBrand}
+            bagCount={0}
+            alwaysShowBagBadge
+            onMenuSearchClick={() => setMenuOpen(true)}
+          />
 
-        <CoachHomePage showSubnav={false} />
+          <CoachHomePage showSubnav={false} />
 
-        <NavScrim open={menuOpen} onClose={closeMenu} />
-        <NavV3ImageCollage open={menuOpen} onClose={closeMenu} />
-      </div>
-    </NavBrandProvider>
+          <NavScrim open={menuOpen} onClose={closeMenu} />
+          <NavV3ImageCollage open={menuOpen} onClose={closeMenu} />
+        </div>
+      </NavBrandProvider>
+    </NavReturnerProvider>
   )
 }

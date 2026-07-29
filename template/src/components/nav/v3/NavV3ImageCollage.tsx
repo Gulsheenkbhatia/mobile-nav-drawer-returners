@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef, useCallback, type CSSProperties } from 'react'
 import { InvokedMenuShell } from '../invoked/InvokedMenuShell'
+import { useNavReturner } from '../NavReturnerContext'
 import { DrillOverlay } from '../drill/DrillOverlay'
 import { useDrillBack } from '../drill/useDrillBack'
 import type { DrillStackEntry } from '../navDrillMotion'
@@ -13,7 +14,7 @@ import { DrillLinkSections } from '../drill/DrillLinkSections'
 import { DrillSubCategorySections } from '../drill/DrillSubCategorySections'
 import { resolveNavDrillL2Body } from '../../../data/navDrillSections'
 import { getV3L1Categories } from '../../../data/v3L1Categories'
-import type { MenuCategory, MenuCategoryDetail, MenuSubCategory } from '../../../data/mobileMenuData'
+import type { MenuCategory, MenuCategoryDetail, MenuLink, MenuSubCategory } from '../../../data/mobileMenuData'
 import {
   getV3L2ContentSpots,
   getV3L1ContentSpots,
@@ -40,6 +41,12 @@ import { CoachtopiaLogo, isCoachtopiaCategory } from '../CoachLogos'
 import { toNavHeadlineCase } from '../../../utils/toNavHeadlineCase'
 import { formatDrillTitle } from '../../../utils/navDrillTitle'
 import { shouldShowNavLinkChevron } from '../../../utils/navLinkChevron'
+import {
+  getEffectiveDrillDepth,
+  getReturnerHighlightId,
+  navLinkReturnerClass,
+} from '../../../utils/navLinkReturner'
+import { useDrillReturnerSelect } from '../../../hooks/useDrillReturnerSelect'
 
 const FOOTER_LINKS = ['Track Order', 'Help', '$USD', 'Login'] as const
 
@@ -130,18 +137,28 @@ function L1ContentSpots({
 function L1CategoryRow({
   cat,
   onSelect,
+  returnerHighlightId = null,
   className,
   style,
 }: {
   cat: MenuCategory
   onSelect: (id: string, title: string) => void
+  returnerHighlightId?: string | null
   className?: string
   style?: CSSProperties
 }) {
+  const rowClassName = [
+    className,
+    navLinkReturnerClass(cat.id, returnerHighlightId),
+  ]
+    .filter(Boolean)
+    .join(' ')
+
   return (
-    <li className={className} style={style} data-l1-category={cat.id}>
+    <li className={rowClassName || undefined} style={style} data-l1-category={cat.id}>
       <button
         type="button"
+        data-nav-link-id={cat.id}
         onClick={() => onSelect(cat.id, cat.label)}
         className="v1-nav-link v3-l1__category-link flex w-full min-h-[28px] items-center justify-between text-left"
       >
@@ -167,6 +184,7 @@ function L1Screen({
   listsMounted,
   staggerEnter,
   pendingEnter,
+  returnerHighlightId = null,
 }: {
   menuBrand: BrandId
   onSelect: (id: string, title: string) => void
@@ -177,6 +195,7 @@ function L1Screen({
   staggerEnter: boolean
   /** Armed enter before --l1-ready — keeps items hidden during brand swap. */
   pendingEnter: boolean
+  returnerHighlightId?: string | null
 }) {
   const categories = getV3L1Categories(menuBrand)
   const l1ContentSpots = getV3L1ContentSpots(menuBrand)
@@ -234,7 +253,12 @@ function L1Screen({
           >
             {categories.flatMap((cat) => {
               const row = (
-                <L1CategoryRow key={cat.id} cat={cat} onSelect={onSelect} />
+                <L1CategoryRow
+                  key={cat.id}
+                  cat={cat}
+                  onSelect={onSelect}
+                  returnerHighlightId={returnerHighlightId}
+                />
               )
 
               if (inlineAfterCategoryId && cat.id === inlineAfterCategoryId) {
@@ -360,6 +384,8 @@ function L2Screen({
   onSelectSub,
   enterKey,
   animDirection,
+  returnerLinkId = null,
+  onNavigateLink,
 }: {
   screenTitle: string
   detail: MenuCategoryDetail
@@ -367,6 +393,8 @@ function L2Screen({
   onSelectSub: (subId: string, title: string) => void
   enterKey: number
   animDirection: NavAnimDirection
+  returnerLinkId?: string | null
+  onNavigateLink?: (link: MenuLink) => void
 }) {
   const contentSpots = getV3L2ContentSpots(detail.id)
   const drillBody = resolveNavDrillL2Body(detail)
@@ -403,6 +431,7 @@ function L2Screen({
             leadingEyebrow={spotsAbove ? contentSpots?.eyebrow : undefined}
             animDirection={animDirection}
             mountKey={mountKey}
+            returnerLinkId={returnerLinkId}
             onSelectSub={onSelectSub}
           />
         </div>
@@ -416,6 +445,8 @@ function L2Screen({
           screenTitle={screenTitle}
           animDirection={animDirection}
           mountKey={mountKey}
+          returnerLinkId={returnerLinkId}
+          onNavigateLink={onNavigateLink}
         />
       )}
 
@@ -439,12 +470,16 @@ function L3Screen({
   onBack,
   enterKey,
   animDirection,
+  returnerLinkId = null,
+  onNavigateLink,
 }: {
   screenTitle: string
   sub: MenuSubCategory
   onBack: () => void
   enterKey: number
   animDirection: NavAnimDirection
+  returnerLinkId?: string | null
+  onNavigateLink?: (link: MenuLink) => void
 }) {
   const mountKey = animMountKey(animDirection, enterKey)
 
@@ -458,6 +493,8 @@ function L3Screen({
         screenTitle={screenTitle}
         animDirection={animDirection}
         mountKey={mountKey}
+        returnerLinkId={returnerLinkId}
+        onNavigateLink={onNavigateLink}
       />
     </div>
   )
@@ -472,6 +509,7 @@ function DrilldownBody({
   menuBrand: BrandId
   menuBodyRef: React.RefObject<HTMLDivElement>
 }) {
+  const { selection, recordNavSelection } = useNavReturner()
   const [stack, setStack] = useState<DrillStackEntry[]>([])
   const [l1ListEnterKey, setL1ListEnterKey] = useState(0)
   const [l1ShouldEnter, setL1ShouldEnter] = useState(false)
@@ -658,6 +696,13 @@ function DrilldownBody({
     if (menuBodyRef.current) {
       l1ScrollTopRef.current = menuBodyRef.current.scrollTop
     }
+    recordNavSelection({
+      linkId: categoryId,
+      label: title,
+      brand: menuBrand,
+      stack: [{ id: categoryId, title }],
+      clickedDepth: 0,
+    })
     setL1ShouldEnter(false)
     setL2ShouldEnter(true)
     setL3ShouldEnter(false)
@@ -667,10 +712,20 @@ function DrilldownBody({
   }
 
   const pushSubCategory = (subId: string, title: string) => {
+    setStack((current) => {
+      const next = [...current, { id: subId, title }]
+      recordNavSelection({
+        linkId: subId,
+        label: title,
+        brand: menuBrand,
+        stack: next,
+        clickedDepth: 1,
+      })
+      return next
+    })
     setL2ShouldEnter(false)
     setL3ShouldEnter(true)
     setL3StaggerReady(false)
-    setStack((current) => [...current, { id: subId, title }])
     setL3AnimKey((key) => key + 1)
   }
 
@@ -702,6 +757,29 @@ function DrilldownBody({
       ? resolveV3SubCategory(categoryId, subId, menuBrand)
       : undefined
 
+  const effectiveDepth = getEffectiveDrillDepth(stack.length, exitingIndex)
+  const l1ReturnerHighlightId = getReturnerHighlightId('l1', effectiveDepth, selection)
+  const l2ReturnerHighlightId = categoryId
+    ? getReturnerHighlightId('l2', effectiveDepth, selection, { categoryId })
+    : null
+  const l3ReturnerHighlightId =
+    categoryId && subId
+      ? getReturnerHighlightId('l3', effectiveDepth, selection, {
+          categoryId,
+          subCategoryId: subId,
+        })
+      : null
+
+  const l2ReturnerStack = categoryEntry ? [categoryEntry] : []
+  const { onNavigateLink: onL2NavigateLink } = useDrillReturnerSelect(
+    menuBrand,
+    l2ReturnerStack,
+  )
+  const { onNavigateLink: onL3NavigateLink } = useDrillReturnerSelect(
+    menuBrand,
+    stack,
+  )
+
   const l1ListsMounted = open && exitingIndex !== 1
   const l1PendingEnter = l1ShouldEnter && !l1StaggerReady && exitingIndex === null
   const l1StaggerEnter =
@@ -724,6 +802,7 @@ function DrilldownBody({
           listsMounted={l1ListsMounted}
           staggerEnter={l1StaggerEnter}
           pendingEnter={l1PendingEnter}
+          returnerHighlightId={l1ReturnerHighlightId}
         />
       </div>
 
@@ -742,6 +821,8 @@ function DrilldownBody({
             onSelectSub={pushSubCategory}
             enterKey={l2AnimKey}
             animDirection={l2AnimDirection}
+            returnerLinkId={l2ReturnerHighlightId}
+            onNavigateLink={onL2NavigateLink}
           />
         </DrillOverlay>
       )}
@@ -760,6 +841,8 @@ function DrilldownBody({
             onBack={handleBack}
             enterKey={l3AnimKey}
             animDirection={l3AnimDirection}
+            returnerLinkId={l3ReturnerHighlightId}
+            onNavigateLink={onL3NavigateLink}
           />
         </DrillOverlay>
       )}
