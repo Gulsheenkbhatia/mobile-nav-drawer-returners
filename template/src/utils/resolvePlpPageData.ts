@@ -1,14 +1,27 @@
+import type { BrandId } from '../components/nav/NavSearchExposed'
 import type { MenuLink } from '../data/mobileMenuData'
 import handbagsFixture from '../data/plp-handbags-view-all.json'
+import sneakersFixture from '../data/plp-sneakers-women.json'
 import type { PlpPageData } from '../types/plp'
 import type { NavReturnerStackEntry } from '../store/navReturnerState'
+import { matchPlpDemoFlow } from './plpDemoFlows'
 
-/** Map a terminal nav link + drill stack to PLP page data (handbags fixture + dynamic meta). */
+const PLP_FIXTURES: Record<string, PlpPageData> = {
+  'bags-view-all': handbagsFixture as PlpPageData,
+  'women-shoes-sneakers': sneakersFixture as PlpPageData,
+}
+
+/** Map a whitelisted demo nav link + drill stack to PLP page data. */
 export function resolvePlpPageData(
   link: MenuLink,
   stack: NavReturnerStackEntry[],
-): PlpPageData {
-  const base = handbagsFixture as PlpPageData
+  brand: BrandId,
+): PlpPageData | null {
+  const flow = matchPlpDemoFlow(link, stack, brand)
+  if (!flow) return null
+
+  const base = PLP_FIXTURES[flow.id]
+  if (!base) return null
 
   const breadcrumbs = stack.map((entry, index) => ({
     label: entry.title,
@@ -18,7 +31,7 @@ export function resolvePlpPageData(
 
   return {
     ...base,
-    categoryName: link.label,
+    categoryName: flow.plpTitle,
     breadcrumbs,
     totalCount: base.totalCount,
     products: base.products,

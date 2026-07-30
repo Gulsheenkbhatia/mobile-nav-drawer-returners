@@ -1,0 +1,283 @@
+{
+  "categoryName": "Sneakers for Women",
+  "breadcrumbs": [
+    { "label": "Women", "href": "/shop/women" },
+    { "label": "Shoes", "href": "/shop/women/shoes" },
+    { "label": "Sneakers" }
+  ],
+  "totalCount": 24,
+  "products": [
+    {
+      "id": "CFA94 WHT",
+      "masterId": "CFA94",
+      "name": "Soho Sneaker In Signature",
+      "price": "150.00",
+      "url": "/products/soho-sneaker-in-signature/CFA94.html?frp=CFA94+WHT",
+      "linkable": true,
+      "image": {
+        "src": "https://coach.scene7.com/is/image/Coach/cfa94_wht_a0",
+        "alt": "Soho Sneaker In Signature"
+      },
+      "rating": 4.7,
+      "reviewCount": 83,
+      "colors": [
+        {
+          "id": "WHT",
+          "text": "White",
+          "image": {
+            "src": "https://coach.scene7.com/is/image/Coach/cfa94_wht_swatch",
+            "alt": "White"
+          },
+          "orderable": true
+        }
+      ]
+    },
+    {
+      "id": "CAQ24 MI5",
+      "masterId": "CAQ24",
+      "name": "Soho Sneaker With Signature Canvas",
+      "price": "150.00",
+      "salePrice": "105.00",
+      "discountPercent": 30,
+      "url": "/products/soho-sneaker-in-signature-canvas/CAQ24.html?frp=CAQ24+MI5",
+      "linkable": true,
+      "image": {
+        "src": "https://coach.scene7.com/is/image/Coach/caq24_mi5_a0",
+        "alt": "Soho Sneaker With Signature Canvas"
+      },
+      "rating": 4.6,
+      "reviewCount": 209,
+      "colors": [
+        {
+          "id": "MI5",
+          "text": "Charcoal/Black",
+          "image": {
+            "src": "https://coach.scene7.com/is/image/Coach/caq24_mi5_swatch",
+            "alt": "Charcoal/Black"
+          },
+          "orderable": true
+        }
+      ]
+    },
+    {
+      "id": "CDE16 L77",
+      "masterId": "CDE16",
+      "name": "Soho Sneaker In Mixed Signature",
+      "price": "150.00",
+      "url": "/products/soho-sneaker-in-mixed-signature/CDE16.html?frp=CDE16+L77",
+      "linkable": true,
+      "image": {
+        "src": "https://coach.scene7.com/is/image/Coach/cde16_l77_a0",
+        "alt": "Soho Sneaker In Mixed Signature"
+      },
+      "rating": 4.5,
+      "reviewCount": 64,
+      "colors": [
+        {
+          "id": "L77",
+          "text": "Black/Chalk",
+          "image": {
+            "src": "https://coach.scene7.com/is/image/Coach/cde16_l77_swatch",
+            "alt": "Black/Chalk"
+          },
+          "orderable": true
+        }
+      ]
+    },
+    {
+      "id": "CDE26 BLK",
+      "masterId": "CDE26",
+      "name": "Soho Sneaker In Crystal Signature Jacquard",
+      "price": "230.00",
+      "salePrice": "185.00",
+      "discountPercent": 20,
+      "url": "/products/soho-sneaker-in-crystal-signature-jacquard/CDE26.html?frp=CDE26+BLK",
+      "linkable": true,
+      "image": {
+        "src": "https://coach.scene7.com/is/image/Coach/cde26_blk_a0",
+        "alt": "Soho Sneaker In Crystal Signature Jacquard"
+      },
+      "rating": 4.8,
+      "reviewCount": 419
+    },
+    {
+      "id": "CCN66 L38",
+      "masterId": "CCN66",
+      "name": "Soho Sneaker In Signature",
+      "price": "250.00",
+      "url": null,
+      "linkable": false,
+      "image": {
+        "src": "https://coach.scene7.com/is/image/Coach/ccn66_l38_a0",
+        "alt": "Soho Sneaker In Signature"
+      },
+      "rating": 4.6,
+      "reviewCount": 52,
+      "colors": [
+        {
+          "id": "L38",
+          "text": "Signature Canvas/Jacquard",
+          "image": {
+            "src": "https://coach.scene7.com/is/image/Coach/ccn66_l38_swatch",
+            "alt": "Signature Canvas/Jacquard"
+          },
+          "orderable": true
+        }
+      ]
+    },
+    {
+      "id": "CEE46 CHK",
+      "masterId": "CEE46",
+      "name": "Soho Espadrille Sneaker",
+      "price": "230.00",
+      "url": null,
+      "linkable": false,
+      "image": {
+        "src": "https://coach.scene7.com/is/image/Coach/cee46_chk_a0",
+        "alt": "Soho Espadrille Sneaker"
+      },
+      "rating": 4.4,
+      "reviewCount": 31
+    },
+    {
+      "id": "CEE49 DEN",
+      "masterId": "CEE49",
+      "name": "Soho Espadrille Sneaker In Loved Denim",
+      "price": "230.00",
+      "url": null,
+      "linkable": false,
+      "image": {
+        "src": "https://coach.scene7.com/is/image/Coach/cee49_den_a0",
+        "alt": "Soho Espadrille Sneaker In Loved Denim"
+      },
+      "rating": 4.5,
+      "reviewCount": 18
+    },
+    {
+      "id": "CEE51 CHK",
+      "masterId": "CEE51",
+      "name": "Soft Sneaker",
+      "price": "275.00",
+      "url": "/products/soft-sneaker/CEE51.html?frp=CEE51+CHK",
+      "linkable": true,
+      "image": {
+        "src": "https://coach.scene7.com/is/image/Coach/cee51_chk_a0",
+        "alt": "Soft Sneaker"
+      },
+      "rating": 4.7,
+      "reviewCount": 48,
+      "badge": "Top Rated",
+      "colors": [
+        {
+          "id": "CHK",
+          "text": "Chalk",
+          "image": {
+            "src": "https://coach.scene7.com/is/image/Coach/cee51_chk_swatch",
+            "alt": "Chalk"
+          },
+          "orderable": true
+        }
+      ]
+    },
+    {
+      "id": "CCI50 CG0",
+      "masterId": "CCI50",
+      "name": "High Line Sneaker",
+      "price": "160.00",
+      "url": null,
+      "linkable": false,
+      "image": {
+        "src": "https://coach.scene7.com/is/image/Coach/cci50_cg0_a0",
+        "alt": "High Line Sneaker"
+      },
+      "rating": 4.6,
+      "reviewCount": 142,
+      "colors": [
+        {
+          "id": "CG0",
+          "text": "Coconut",
+          "image": {
+            "src": "https://coach.scene7.com/is/image/Coach/cci50_cg0_swatch",
+            "alt": "Coconut"
+          },
+          "orderable": true
+        }
+      ]
+    },
+    {
+      "id": "CDE28 YNG",
+      "masterId": "CDE28",
+      "name": "Bolt Runner Sneaker",
+      "price": "435.00",
+      "salePrice": "217.50",
+      "discountPercent": 50,
+      "url": null,
+      "linkable": false,
+      "image": {
+        "src": "https://coach.scene7.com/is/image/Coach/cde28_yng_a0",
+        "alt": "Bolt Runner Sneaker"
+      },
+      "rating": 4.3,
+      "reviewCount": 9
+    },
+    {
+      "id": "CDE29 L77",
+      "masterId": "CDE29",
+      "name": "Bolt Runner Sneaker",
+      "price": "295.00",
+      "url": null,
+      "linkable": false,
+      "image": {
+        "src": "https://coach.scene7.com/is/image/Coach/cde29_l77_a0",
+        "alt": "Bolt Runner Sneaker"
+      },
+      "rating": 4.2,
+      "reviewCount": 1,
+      "colors": [
+        {
+          "id": "L77",
+          "text": "Black/Chalk",
+          "image": {
+            "src": "https://coach.scene7.com/is/image/Coach/cde29_woo_swatch",
+            "alt": "Black/Chalk"
+          },
+          "orderable": true
+        },
+        {
+          "id": "WOO",
+          "text": "Light Grey Multi",
+          "image": {
+            "src": "https://coach.scene7.com/is/image/Coach/cde29_woo_swatch",
+            "alt": "Light Grey Multi"
+          },
+          "orderable": true
+        }
+      ]
+    },
+    {
+      "id": "CDE17 L77",
+      "masterId": "CDE17",
+      "name": "Soho Sneaker In Mixed Signature",
+      "price": "150.00",
+      "url": null,
+      "linkable": false,
+      "image": {
+        "src": "https://coach.scene7.com/is/image/Coach/cde17_l77_a0",
+        "alt": "Soho Sneaker In Mixed Signature"
+      },
+      "rating": 4.5,
+      "reviewCount": 37,
+      "colors": [
+        {
+          "id": "L77",
+          "text": "Black/Chalk",
+          "image": {
+            "src": "https://coach.scene7.com/is/image/Coach/cde17_l77_swatch",
+            "alt": "Black/Chalk"
+          },
+          "orderable": true
+        }
+      ]
+    }
+  ]
+}

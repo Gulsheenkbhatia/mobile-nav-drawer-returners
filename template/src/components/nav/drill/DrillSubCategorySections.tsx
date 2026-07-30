@@ -1,4 +1,5 @@
-import type { MenuSubCategorySection } from '../../../data/mobileMenuData'
+import type { MenuLink, MenuSubCategorySection } from '../../../data/mobileMenuData'
+import type { BrandId } from '../NavSearchExposed'
 import {
   shouldShowSectionEyebrow,
   shouldShowDrillLeadingEyebrow,
@@ -10,6 +11,7 @@ import {
   shouldDrillNavLink,
   shouldShowNavLinkChevron,
 } from '../../../utils/navLinkChevron'
+import { isNavigableMenuLink, resolveTerminalSubNavLink } from '../../../utils/navLinkNavigate'
 import { toNavHeadlineCase } from '../../../utils/toNavHeadlineCase'
 import { navLinkReturnerClass } from '../../../utils/navLinkReturner'
 import {
@@ -24,12 +26,15 @@ type DrillSubCategorySectionsProps = {
   sections: MenuSubCategorySection[]
   className?: string
   screenTitle: string
+  categoryId: string
+  brand: BrandId
   /** Eyebrow from L2 content spots — shown on first section when it has no eyebrow. */
   leadingEyebrow?: string
   animDirection: NavAnimDirection
   mountKey: string
   returnerLinkId?: string | null
   onSelectSub: (subId: string, title: string) => void
+  onNavigateLink?: (link: MenuLink) => void
 }
 
 /** L2 chevron sub-category lists — one or more sections with 32px between groups. */
@@ -37,11 +42,14 @@ export function DrillSubCategorySections({
   sections,
   className = 'v3-l2__sections',
   screenTitle,
+  categoryId,
+  brand,
   leadingEyebrow,
   animDirection,
   mountKey,
   returnerLinkId = null,
   onSelectSub,
+  onNavigateLink,
 }: DrillSubCategorySectionsProps) {
   const ctx: NavEyebrowContext = {
     depth: 'l2',
@@ -110,6 +118,15 @@ export function DrillSubCategorySections({
                     onClick={() => {
                       if (shouldDrillNavLink(sub.label, sub.id)) {
                         onSelectSub(sub.id, rowLabel)
+                        return
+                      }
+                      const terminalLink = resolveTerminalSubNavLink(
+                        categoryId,
+                        sub.id,
+                        brand,
+                      )
+                      if (terminalLink && isNavigableMenuLink(terminalLink)) {
+                        onNavigateLink?.(terminalLink)
                       }
                     }}
                     className="v1-nav-link flex w-full items-center justify-between text-left"

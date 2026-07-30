@@ -292,6 +292,8 @@ export function T1L2DrillPreview({
             sections={drillBody.sections}
             className={sectionsClassName}
             screenTitle={title}
+            categoryId={categoryId}
+            brand={brand}
             leadingEyebrow={spotsAbove ? contentSpots?.eyebrow : undefined}
             animDirection="idle"
             mountKey="pressure"

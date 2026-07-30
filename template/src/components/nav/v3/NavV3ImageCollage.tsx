@@ -49,6 +49,7 @@ import {
 } from '../../../utils/navLinkReturner'
 import { useDrillReturnerSelect } from '../../../hooks/useDrillReturnerSelect'
 import type { NavReturnerStackEntry } from '../../../store/navReturnerState'
+import { isPlpDemoLink } from '../../../utils/plpDemoFlows'
 
 const FOOTER_LINKS = ['Track Order', 'Help', '$USD', 'Login'] as const
 
@@ -383,6 +384,7 @@ function DrillHeader({
 function L2Screen({
   screenTitle,
   detail,
+  menuBrand,
   onBack,
   onSelectSub,
   enterKey,
@@ -392,6 +394,7 @@ function L2Screen({
 }: {
   screenTitle: string
   detail: MenuCategoryDetail
+  menuBrand: BrandId
   onBack: () => void
   onSelectSub: (subId: string, title: string) => void
   enterKey: number
@@ -431,11 +434,14 @@ function L2Screen({
             sections={drillBody.sections}
             className={sectionsClassName}
             screenTitle={screenTitle}
+            categoryId={detail.id}
+            brand={menuBrand}
             leadingEyebrow={spotsAbove ? contentSpots?.eyebrow : undefined}
             animDirection={animDirection}
             mountKey={mountKey}
             returnerLinkId={returnerLinkId}
             onSelectSub={onSelectSub}
+            onNavigateLink={onNavigateLink}
           />
         </div>
       )}
@@ -837,22 +843,30 @@ function DrilldownBody({
       : null
 
   const l2ReturnerStack = categoryEntry ? [categoryEntry] : []
+  const canNavigateToPlp = useCallback(
+    (link: MenuLink, linkStack: NavReturnerStackEntry[]) =>
+      isPlpDemoLink(link, linkStack, menuBrand),
+    [menuBrand],
+  )
   const handleTerminalLinkClick = useCallback(
     (link: MenuLink, linkStack: NavReturnerStackEntry[]) => {
+      if (!isPlpDemoLink(link, linkStack, menuBrand)) return
       onTerminalLinkClick?.(link, linkStack)
       onClose()
     },
-    [onTerminalLinkClick, onClose],
+    [menuBrand, onTerminalLinkClick, onClose],
   )
   const { onNavigateLink: onL2NavigateLink } = useDrillReturnerSelect(
     menuBrand,
     l2ReturnerStack,
     (link) => handleTerminalLinkClick(link, l2ReturnerStack),
+    (link) => canNavigateToPlp(link, l2ReturnerStack),
   )
   const { onNavigateLink: onL3NavigateLink } = useDrillReturnerSelect(
     menuBrand,
     stack,
     (link) => handleTerminalLinkClick(link, stack),
+    (link) => canNavigateToPlp(link, stack),
   )
 
   const l1ListsMounted = open && exitingIndex !== 1
@@ -893,6 +907,7 @@ function DrilldownBody({
           <L2Screen
             screenTitle={l2Title}
             detail={categoryDetail}
+            menuBrand={menuBrand}
             onBack={handleBack}
             onSelectSub={pushSubCategory}
             enterKey={l2AnimKey}

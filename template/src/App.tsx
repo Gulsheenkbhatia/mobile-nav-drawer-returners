@@ -50,9 +50,10 @@ function PrototypeApp() {
 
   const handleTerminalLinkClick = useCallback(
     (link: MenuLink, stack: NavReturnerStackEntry[]) => {
-      setActivePlp(resolvePlpPageData(link, stack))
+      const plp = resolvePlpPageData(link, stack, activeBrand)
+      if (plp) setActivePlp(plp)
     },
-    [],
+    [activeBrand],
   )
 
   useEffect(() => {
