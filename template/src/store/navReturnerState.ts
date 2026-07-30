@@ -114,10 +114,9 @@ export function readNavReturnerState(): NavReturnerPersistedState | null {
 }
 
 export function saveNavReturner(selection: NavReturnerSelection): void {
-  const existing = readNavReturnerState()
   saveNavReturnerState({
     brand: selection.brand,
-    drillStack: existing?.drillStack ?? selection.stack,
+    drillStack: selection.stack,
     selection,
   })
 }

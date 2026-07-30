@@ -1,5 +1,6 @@
-import { useEffect, useState, useRef, useCallback, type CSSProperties } from 'react'
+import { useEffect, useLayoutEffect, useState, useRef, useCallback, type CSSProperties } from 'react'
 import { InvokedMenuShell } from '../invoked/InvokedMenuShell'
+import { useNavBrand } from '../NavBrandContext'
 import { useNavReturner } from '../NavReturnerContext'
 import { DrillOverlay } from '../drill/DrillOverlay'
 import { useDrillBack } from '../drill/useDrillBack'
@@ -504,12 +505,15 @@ function DrilldownBody({
   open,
   menuBrand,
   menuBodyRef,
+  restoreInstant = false,
 }: {
   open: boolean
   menuBrand: BrandId
   menuBodyRef: React.RefObject<HTMLDivElement>
+  restoreInstant?: boolean
 }) {
-  const { selection, recordNavSelection } = useNavReturner()
+  const { selection, recordNavSelection, saveDrillPosition, getRestoredDrillStack } =
+    useNavReturner()
   const [stack, setStack] = useState<DrillStackEntry[]>([])
   const [l1ListEnterKey, setL1ListEnterKey] = useState(0)
   const [l1ShouldEnter, setL1ShouldEnter] = useState(false)
@@ -527,6 +531,11 @@ function DrilldownBody({
   const [l1StaggerReady, setL1StaggerReady] = useState(false)
   const [exitStackHeight, setExitStackHeight] = useState<number | null>(null)
   const l1ScrollTopRef = useRef(0)
+  const drillStackRef = useRef<DrillStackEntry[]>([])
+  const [drillRestoreInstant, setDrillRestoreInstant] = useState(false)
+  const prevOpenRef = useRef(open)
+
+  drillStackRef.current = stack
 
   const clearL1EnterTimer = useCallback(() => {
     if (l1EnterTimerRef.current !== null) {
@@ -590,24 +599,75 @@ function DrilldownBody({
     }
   }, [open, l1ContentReady, l1ListEnterKey])
 
+  useLayoutEffect(() => {
+    if (!open) return
+
+    const restoredStack = getRestoredDrillStack(menuBrand)
+    if (!restoredStack?.length) return
+
+    clearL1EnterTimer()
+    setL1ContentReady(true)
+    setL1StaggerReady(true)
+    setL1ShouldEnter(false)
+    setExitingIndex(null)
+    setL2ShouldEnter(false)
+    setL3ShouldEnter(false)
+    setStack(restoredStack)
+    setL2StaggerReady(true)
+    setL3StaggerReady(true)
+    l1ScrollTopRef.current = 0
+    menuBodyRef.current?.scrollTo(0, 0)
+  }, [open, clearL1EnterTimer, getRestoredDrillStack, menuBrand, menuBodyRef])
+
   useEffect(() => {
     if (open) {
+      prevOpenRef.current = true
+
+      const restoredStack = getRestoredDrillStack(menuBrand)
+      if (restoredStack?.length) {
+        const frame = requestAnimationFrame(() => {
+          if (stackRef.current) {
+            setExitStackHeight(stackRef.current.offsetHeight)
+          }
+        })
+        return () => cancelAnimationFrame(frame)
+      }
+
       l1ScrollTopRef.current = 0
       armL1Enter(NAV_DRAWER_CONTENT_DELAY_MS)
       return () => clearL1EnterTimer()
     }
 
+    if (!prevOpenRef.current) return
+
+    prevOpenRef.current = false
     clearL1EnterTimer()
+    saveDrillPosition(menuBrand, drillStackRef.current)
     setL1ContentReady(false)
     setL1StaggerReady(false)
     setStack([])
     setExitingIndex(null)
+    setExitStackHeight(null)
     setL1ShouldEnter(false)
     setL2ShouldEnter(false)
     setL3ShouldEnter(false)
     setL2StaggerReady(false)
     setL3StaggerReady(false)
-  }, [open, armL1Enter, clearL1EnterTimer])
+  }, [open, armL1Enter, clearL1EnterTimer, getRestoredDrillStack, menuBrand, saveDrillPosition])
+
+  useEffect(() => {
+    if (!restoreInstant) {
+      setDrillRestoreInstant(false)
+      return
+    }
+    setDrillRestoreInstant(true)
+  }, [restoreInstant])
+
+  useEffect(() => {
+    if (!drillRestoreInstant) return
+    const frame = requestAnimationFrame(() => setDrillRestoreInstant(false))
+    return () => cancelAnimationFrame(frame)
+  }, [drillRestoreInstant])
 
   useEffect(() => {
     if (!open) {
@@ -812,6 +872,7 @@ function DrilldownBody({
           isExiting={exitingIndex === 0}
           isRevealed={exitingIndex === 1}
           contentKey={l2AnimKey}
+          instantEnter={drillRestoreInstant}
           onEntered={handleL2Entered}
         >
           <L2Screen
@@ -833,6 +894,7 @@ function DrilldownBody({
           isExiting={exitingIndex === 1}
           isRevealed={false}
           contentKey={l3AnimKey}
+          instantEnter={drillRestoreInstant}
           onEntered={handleL3Entered}
         >
           <L3Screen
@@ -852,10 +914,27 @@ function DrilldownBody({
 
 /** MVP V3 — Nav + L1/L2 content spots (matches coach-nav.vercel.app V3). */
 export function NavV3ImageCollage({ open, onClose }: NavV3ImageCollageProps) {
+  const { activeBrand } = useNavBrand()
+  const { getRestoredDrillStack } = useNavReturner()
+  const [restoreInstant, setRestoreInstant] = useState(false)
+
+  useLayoutEffect(() => {
+    if (!open) {
+      setRestoreInstant(false)
+      return
+    }
+    setRestoreInstant(Boolean(getRestoredDrillStack(activeBrand)?.length))
+  }, [open, activeBrand, getRestoredDrillStack])
+
   return (
     <InvokedMenuShell open={open} onClose={onClose} aria-label="Shop navigation">
       {({ menuBrand, menuBodyRef }) => (
-        <DrilldownBody open={open} menuBrand={menuBrand} menuBodyRef={menuBodyRef} />
+        <DrilldownBody
+          open={open}
+          menuBrand={menuBrand}
+          menuBodyRef={menuBodyRef}
+          restoreInstant={restoreInstant}
+        />
       )}
     </InvokedMenuShell>
   )

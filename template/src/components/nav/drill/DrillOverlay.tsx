@@ -6,6 +6,8 @@ type DrillOverlayProps = {
   /** Visible underneath while a child panel slides out. */
   isRevealed: boolean
   contentKey: number
+  /** Skip slide-in when restoring drill depth on menu reopen. */
+  instantEnter?: boolean
   /** Fires once when the panel has `--entered` (after double rAF). */
   onEntered?: () => void
   children: ReactNode
@@ -20,10 +22,11 @@ export function DrillOverlay({
   isExiting,
   isRevealed,
   contentKey,
+  instantEnter = false,
   onEntered,
   children,
 }: DrillOverlayProps) {
-  const [entered, setEntered] = useState(false)
+  const [entered, setEntered] = useState(instantEnter)
   const [exitSliding, setExitSliding] = useState(false)
   const panelRef = useRef<HTMLDivElement>(null)
   const onEnteredRef = useRef(onEntered)
@@ -33,6 +36,12 @@ export function DrillOverlay({
   }, [onEntered])
 
   useEffect(() => {
+    if (instantEnter) {
+      setEntered(true)
+      onEnteredRef.current?.()
+      return
+    }
+
     setEntered(false)
     let outer = 0
     let inner = 0
@@ -46,7 +55,7 @@ export function DrillOverlay({
       cancelAnimationFrame(outer)
       cancelAnimationFrame(inner)
     }
-  }, [contentKey])
+  }, [contentKey, instantEnter])
 
   useLayoutEffect(() => {
     if (!isExiting) {
@@ -75,6 +84,7 @@ export function DrillOverlay({
   const className = [
     'invoked-menu__overlay',
     showEntered ? 'invoked-menu__overlay--entered' : '',
+    instantEnter ? 'invoked-menu__overlay--instant' : '',
     isTop && !isExiting ? 'invoked-menu__overlay--active' : '',
     isExiting ? 'invoked-menu__overlay--exiting' : '',
     isRevealed ? 'invoked-menu__overlay--revealed' : '',

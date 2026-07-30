@@ -580,6 +580,10 @@ body.drawerOpened {
   opacity: 1;
 }
 
+.invoked-menu__overlay--instant {
+  transition: none;
+}
+
 /* Active drill panel — in-flow; scrolls with brand tabs in invoked-menu__body */
 .invoked-menu__overlay--active {
   position: relative;
