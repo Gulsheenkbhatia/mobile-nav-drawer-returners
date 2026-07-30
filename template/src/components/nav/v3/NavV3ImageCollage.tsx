@@ -48,6 +48,7 @@ import {
   navLinkReturnerClass,
 } from '../../../utils/navLinkReturner'
 import { useDrillReturnerSelect } from '../../../hooks/useDrillReturnerSelect'
+import type { NavReturnerStackEntry } from '../../../store/navReturnerState'
 
 const FOOTER_LINKS = ['Track Order', 'Help', '$USD', 'Login'] as const
 
@@ -62,6 +63,7 @@ const campaignImage = '/assets/figma/v3-campaign.png'
 type NavV3ImageCollageProps = {
   open: boolean
   onClose: () => void
+  onTerminalLinkClick?: (link: MenuLink, stack: NavReturnerStackEntry[]) => void
 }
 
 function ArrowBack() {
@@ -506,11 +508,15 @@ function DrilldownBody({
   menuBrand,
   menuBodyRef,
   restoreInstant = false,
+  onClose,
+  onTerminalLinkClick,
 }: {
   open: boolean
   menuBrand: BrandId
   menuBodyRef: React.RefObject<HTMLDivElement>
   restoreInstant?: boolean
+  onClose: () => void
+  onTerminalLinkClick?: (link: MenuLink, stack: NavReturnerStackEntry[]) => void
 }) {
   const { selection, recordNavSelection, saveDrillPosition, getRestoredDrillStack } =
     useNavReturner()
@@ -831,13 +837,22 @@ function DrilldownBody({
       : null
 
   const l2ReturnerStack = categoryEntry ? [categoryEntry] : []
+  const handleTerminalLinkClick = useCallback(
+    (link: MenuLink, linkStack: NavReturnerStackEntry[]) => {
+      onTerminalLinkClick?.(link, linkStack)
+      onClose()
+    },
+    [onTerminalLinkClick, onClose],
+  )
   const { onNavigateLink: onL2NavigateLink } = useDrillReturnerSelect(
     menuBrand,
     l2ReturnerStack,
+    (link) => handleTerminalLinkClick(link, l2ReturnerStack),
   )
   const { onNavigateLink: onL3NavigateLink } = useDrillReturnerSelect(
     menuBrand,
     stack,
+    (link) => handleTerminalLinkClick(link, stack),
   )
 
   const l1ListsMounted = open && exitingIndex !== 1
@@ -913,7 +928,11 @@ function DrilldownBody({
 }
 
 /** MVP V3 — Nav + L1/L2 content spots (matches coach-nav.vercel.app V3). */
-export function NavV3ImageCollage({ open, onClose }: NavV3ImageCollageProps) {
+export function NavV3ImageCollage({
+  open,
+  onClose,
+  onTerminalLinkClick,
+}: NavV3ImageCollageProps) {
   const { activeBrand } = useNavBrand()
   const { getRestoredDrillStack } = useNavReturner()
   const [restoreInstant, setRestoreInstant] = useState(false)
@@ -934,6 +953,8 @@ export function NavV3ImageCollage({ open, onClose }: NavV3ImageCollageProps) {
           menuBrand={menuBrand}
           menuBodyRef={menuBodyRef}
           restoreInstant={restoreInstant}
+          onClose={onClose}
+          onTerminalLinkClick={onTerminalLinkClick}
         />
       )}
     </InvokedMenuShell>

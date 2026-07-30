@@ -1,12 +1,17 @@
 import { useCallback, useEffect, useState } from 'react'
 import { CoachHomePage } from './components/homepage/CoachHomePage'
+import { CoachPlpPage } from './components/plp/CoachPlpPage'
 import { NavBrandProvider } from './components/nav/NavBrandContext'
 import { NavSearchExposed } from './components/nav/NavSearchExposed'
 import { NavV3ImageCollage } from './components/nav/v3/NavV3ImageCollage'
 import { NavTemplateGallery } from './components/nav/gallery/NavTemplateGallery'
 import { NavT1PressureGallery } from './components/nav/gallery/NavT1PressureGallery'
 import { NavScrim } from './components/NavScrim'
-import { NavReturnerProvider } from './components/nav/NavReturnerContext'
+import { NavReturnerProvider, useNavReturner } from './components/nav/NavReturnerContext'
+import type { MenuLink } from './data/mobileMenuData'
+import type { NavReturnerStackEntry } from './store/navReturnerState'
+import type { PlpPageData } from './types/plp'
+import { resolvePlpPageData } from './utils/resolvePlpPageData'
 
 type GalleryMode = 'nav' | 't1' | null
 
@@ -29,12 +34,26 @@ function useGalleryMode(): GalleryMode {
   return gallery
 }
 
-export default function App() {
-  const galleryMode = useGalleryMode()
+function PrototypeApp() {
+  const { clearReturner } = useNavReturner()
   const [activeBrand, setActiveBrand] = useState<'coach' | 'outlet'>('coach')
   const [menuOpen, setMenuOpen] = useState(false)
+  const [activePlp, setActivePlp] = useState<PlpPageData | null>(null)
 
   const closeMenu = useCallback(() => setMenuOpen(false), [])
+
+  const goHome = useCallback(() => {
+    setActivePlp(null)
+    clearReturner()
+    closeMenu()
+  }, [clearReturner, closeMenu])
+
+  const handleTerminalLinkClick = useCallback(
+    (link: MenuLink, stack: NavReturnerStackEntry[]) => {
+      setActivePlp(resolvePlpPageData(link, stack))
+    },
+    [],
+  )
 
   useEffect(() => {
     if (!menuOpen) return
@@ -50,6 +69,34 @@ export default function App() {
     return () => document.body.classList.remove('drawerOpened')
   }, [menuOpen])
 
+  return (
+    <NavBrandProvider activeBrand={activeBrand} setActiveBrand={setActiveBrand}>
+      <div className="v1-prototype relative flex min-h-[100dvh] w-full min-w-0 flex-col bg-coach-white font-extended">
+        <NavSearchExposed
+          activeBrand={activeBrand}
+          onBrandChange={setActiveBrand}
+          bagCount={0}
+          alwaysShowBagBadge
+          onMenuSearchClick={() => setMenuOpen(true)}
+          onCoachHomeClick={goHome}
+        />
+
+        {activePlp ? <CoachPlpPage data={activePlp} /> : <CoachHomePage showSubnav={false} />}
+
+        <NavScrim open={menuOpen} onClose={closeMenu} />
+        <NavV3ImageCollage
+          open={menuOpen}
+          onClose={closeMenu}
+          onTerminalLinkClick={handleTerminalLinkClick}
+        />
+      </div>
+    </NavBrandProvider>
+  )
+}
+
+export default function App() {
+  const galleryMode = useGalleryMode()
+
   if (galleryMode === 'nav') {
     return <NavTemplateGallery />
   }
@@ -60,22 +107,7 @@ export default function App() {
 
   return (
     <NavReturnerProvider>
-      <NavBrandProvider activeBrand={activeBrand} setActiveBrand={setActiveBrand}>
-        <div className="v1-prototype relative flex min-h-[100dvh] w-full min-w-0 flex-col bg-coach-white font-extended">
-          <NavSearchExposed
-            activeBrand={activeBrand}
-            onBrandChange={setActiveBrand}
-            bagCount={0}
-            alwaysShowBagBadge
-            onMenuSearchClick={() => setMenuOpen(true)}
-          />
-
-          <CoachHomePage showSubnav={false} />
-
-          <NavScrim open={menuOpen} onClose={closeMenu} />
-          <NavV3ImageCollage open={menuOpen} onClose={closeMenu} />
-        </div>
-      </NavBrandProvider>
+      <PrototypeApp />
     </NavReturnerProvider>
   )
 }

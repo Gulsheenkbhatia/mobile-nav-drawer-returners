@@ -133,6 +133,21 @@
   /* Mobile nav — returner row highlight (coach.com post-PLP) */
   --nav-link-returner-bg:    var(--color-white);
 
+  /* PLP v3 (Coach-Header-banner prototype aliases) */
+  --color-neutral-light:     var(--color-white);
+  --color-neutral-light-1:   #f0f0f0;
+  --color-neutral-dark:      #333333;
+  --font-face-primary:       var(--font-face1-compact);
+  --font-face-extended:      var(--font-face1-extended);
+  --font-face3-extended-bold: var(--font-face1-extended);
+  --mar:                     var(--spacing-4);
+  --text-14:                 0.875rem;
+  --text-16:                 1rem;
+  --line-height-s:           1.2;
+  --line-height-m:           1.4;
+  --line-height-xl:          1.6;
+  --letter-spacing-xs:       0.5px;
+
   /* --------------------------------------------------------
      SEMANTIC — borders
      -------------------------------------------------------- */

@@ -1,0 +1,78 @@
+.title {
+  background: var(--color-neutral-light-1);
+  padding: 24px 12px 16px;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.titleText {
+  font-family: var(--font-face3-extended-bold);
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 1.2;
+  letter-spacing: 0.4px;
+  color: #000003;
+  margin: 0;
+}
+
+.titleCount {
+  font-family: var(--font-face-primary);
+  font-size: 12px;
+  line-height: 1.4;
+  letter-spacing: 0.2px;
+  color: #575757;
+  white-space: nowrap;
+}
+
+.pillsWrap {
+  position: relative;
+  background: var(--color-neutral-light-1);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.pills {
+  display: flex;
+  gap: 18px;
+  padding: 0 12px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.pills::-webkit-scrollbar {
+  display: none;
+}
+
+.pill {
+  padding: 16px 0 8px;
+  background: none;
+  border: none;
+  font-family: var(--font-face-primary);
+  font-size: 12px;
+  line-height: 1.4;
+  letter-spacing: 0.2px;
+  color: #000003;
+  white-space: nowrap;
+  position: relative;
+}
+
+.fadeLeft,
+.fadeRight {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 23px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.fadeLeft {
+  left: 0;
+  background: linear-gradient(90deg, #f0f0f0 0%, rgba(240, 240, 240, 0) 100%);
+}
+
+.fadeRight {
+  right: 0;
+  background: linear-gradient(-90deg, #f0f0f0 0%, rgba(240, 240, 240, 0) 100%);
+}

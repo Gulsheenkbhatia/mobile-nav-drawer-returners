@@ -11,6 +11,7 @@ export type NavSearchExposedProps = {
   alwaysShowBagBadge?: boolean
   onMenuSearchClick?: () => void
   onBagClick?: () => void
+  onCoachHomeClick?: () => void
 }
 
 export function NavSearchExposed({
@@ -20,6 +21,7 @@ export function NavSearchExposed({
   alwaysShowBagBadge = false,
   onMenuSearchClick,
   onBagClick,
+  onCoachHomeClick,
 }: NavSearchExposedProps) {
   const showBagBadge = alwaysShowBagBadge || bagCount > 0
   return (
@@ -28,6 +30,7 @@ export function NavSearchExposed({
         <BrandTabList
           activeBrand={activeBrand}
           onBrandChange={onBrandChange}
+          onCoachHomeClick={onCoachHomeClick}
         />
 
         <div className="nav-exposed__icons">

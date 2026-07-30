@@ -4,6 +4,7 @@ import type { BrandId } from './NavSearchExposed'
 type BrandTabListProps = {
   activeBrand: BrandId
   onBrandChange: (brand: BrandId) => void
+  onCoachHomeClick?: () => void
   className?: string
 }
 
@@ -11,6 +12,7 @@ type BrandTabListProps = {
 export function BrandTabList({
   activeBrand,
   onBrandChange,
+  onCoachHomeClick,
   className = 'nav-exposed__tabs',
 }: BrandTabListProps) {
   const isCoachActive = activeBrand === 'coach'
@@ -23,7 +25,10 @@ export function BrandTabList({
         aria-selected={isCoachActive}
         data-qa="mobile_menu_tab_retail"
         className={`nav-exposed__tab ${isCoachActive ? 'nav-exposed__tab--active' : ''}`}
-        onClick={() => onBrandChange('coach')}
+        onClick={() => {
+          onBrandChange('coach')
+          onCoachHomeClick?.()
+        }}
       >
         <CoachRetailLogo className="nav-exposed__logo nav-exposed__logo--retail" />
       </button>

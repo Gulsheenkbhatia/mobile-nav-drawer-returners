@@ -1,0 +1,62 @@
+.filterSortRow {
+  background: var(--color-neutral-light-1);
+  padding: 16px 12px;
+}
+
+.filterSortBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 116px;
+  max-height: 36px;
+  height: 36px;
+  padding: 10px 14px;
+  box-sizing: border-box;
+  background: var(--color-neutral-light);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 130px;
+  font-family: var(--font-face-extended);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.25;
+  letter-spacing: 0.2px;
+  color: var(--color-primary);
+  cursor: default;
+}
+
+.filterSortBtn[aria-disabled='true'] {
+  pointer-events: none;
+}
+
+.filterSortIcon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.filterSortLabel {
+  padding-top: 3px;
+  white-space: nowrap;
+}
+
+.seo {
+  padding: var(--spacing-8) var(--mar);
+  background: var(--color-neutral-light);
+  border-top: 1px solid var(--color-neutral-light-1);
+}
+
+.seoTitle {
+  margin: 0 0 var(--spacing-3);
+  font-family: var(--font-face3-extended-bold);
+  font-size: var(--text-16);
+  font-weight: 700;
+  letter-spacing: 0.4px;
+}
+
+.seoText {
+  margin: 0 0 var(--spacing-3);
+  font-size: var(--text-12);
+  line-height: var(--line-height-xl);
+  color: var(--color-neutral-medium);
+}

@@ -99,7 +99,14 @@ export function NavReturnerProvider({ children }: { children: ReactNode }) {
 
   const getRestoredDrillStack = useCallback((brand: BrandId) => {
     const state = getNavReturnerForBrand(brand)
-    return state?.drillStack.length ? state.drillStack : null
+    if (!state) return null
+
+    // After a terminal link visit (PLP round-trip), reopen at the exact drill depth.
+    if (state.selection?.stack.length) {
+      return state.selection.stack
+    }
+
+    return state.drillStack.length ? state.drillStack : null
   }, [])
 
   const getRestoredStack = getRestoredDrillStack

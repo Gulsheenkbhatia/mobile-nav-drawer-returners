@@ -97,7 +97,7 @@ Unconstrained tweak notes go on the **Polish Backlog** frame — not on LOCK fra
 | ID | Requirement |
 |----|-------------|
 | REQ-NAV-301 | Post-interaction nav link highlight |
-| REQ-NAV-302 | First-time vs returner journey differences |
+| REQ-NAV-302 | First-time vs returner journey differences — **prototype:** terminal L2/L3 link → real PLP → menu reopen at **exact drill depth** where the link was clicked + white row highlight on that link |
 | REQ-NAV-303 | L1 three-across 16:9 variant (if distinct from `l1-3` hero+duo) |
 
 ---

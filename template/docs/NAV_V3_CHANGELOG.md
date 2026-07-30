@@ -24,7 +24,7 @@ Initial developer handoff package.
 ### Known gaps (Open tier)
 
 - REQ-NAV-301: Post-click nav link highlight
-- REQ-NAV-302: Returner journey
+- REQ-NAV-302: Returner journey — **prototype implemented** (PLP round-trip, exact drill-depth restore, link highlight; Coach header resets to homepage)
 - REQ-NAV-303: L1 three-across 16:9 variant TBD
 
 ### Polish lane (non-blocking)

@@ -1,0 +1,232 @@
+{
+  "categoryName": "View All Handbags",
+  "breadcrumbs": [
+    { "label": "Women", "href": "/shop/women" },
+    { "label": "Handbags", "href": "/shop/women/handbags" },
+    { "label": "View All" }
+  ],
+  "totalCount": 161,
+  "products": [
+    {
+      "id": "CCX04 B4MPL",
+      "masterId": "CCX04",
+      "name": "Tabby Shoulder Bag 26",
+      "price": "475.00",
+      "url": "/products/tabby-shoulder-bag-26/CCX04.html?frp=CCX04+B4MPL",
+      "linkable": true,
+      "image": {
+        "src": "https://coach.scene7.com/is/image/Coach/ccx04_b4mpl_a0",
+        "alt": "Tabby Shoulder Bag 26"
+      },
+      "rating": 4.8,
+      "reviewCount": 642,
+      "colors": [
+        {
+          "id": "B4MPL",
+          "text": "Brass/Mahogany",
+          "image": {
+            "src": "https://coach.scene7.com/is/image/Coach/ccx04_b4mpl_swatch",
+            "alt": "Brass/Mahogany"
+          },
+          "orderable": true
+        },
+        {
+          "id": "B4/BK",
+          "text": "Brass/Black",
+          "image": {
+            "src": "https://coach.scene7.com/is/image/Coach/ccx04_b4bk_swatch",
+            "alt": "Brass/Black"
+          },
+          "orderable": true
+        },
+        {
+          "id": "B4/HA",
+          "text": "Brass/Chalk",
+          "image": {
+            "src": "https://coach.scene7.com/is/image/Coach/ccx04_b4ha_swatch",
+            "alt": "Brass/Chalk"
+          },
+          "orderable": true
+        },
+        {
+          "id": "LHBLK",
+          "text": "Silver/Black",
+          "image": {
+            "src": "https://coach.scene7.com/is/image/Coach/ccx04_lhblk_swatch",
+            "alt": "Silver/Black"
+          },
+          "orderable": true
+        }
+      ]
+    },
+    {
+      "id": "CY830 B4TA7",
+      "masterId": "CY830",
+      "name": "Juliet Shoulder Bag 25 In Signature Textile Jacquard",
+      "price": "350.00",
+      "url": null,
+      "linkable": false,
+      "image": {
+        "src": "https://coach.scene7.com/is/image/Coach/cy830_b4ta7_a0?",
+        "alt": "Juliet Shoulder Bag 25 In Signature Textile Jacquard"
+      },
+      "rating": 4.7,
+      "reviewCount": 138,
+      "colors": [
+        {
+          "id": "B4TA7",
+          "text": "Brass/Cocoa Burnished Amber",
+          "image": {
+            "src": "https://coach.scene7.com/is/image/Coach/cy830_b4ta7_swatch",
+            "alt": "Brass/Cocoa Burnished Amber"
+          },
+          "orderable": true
+        }
+      ]
+    },
+    {
+      "id": "CX099 B4L7M",
+      "masterId": "CX099",
+      "name": "Restored Tabby Shoulder Bag In Colorblock With Snakeskin Detail",
+      "price": "425.00",
+      "url": null,
+      "linkable": false,
+      "image": {
+        "src": "https://coach.scene7.com/is/image/Coach/cx099_b4l7m_a0?",
+        "alt": "Restored Tabby Shoulder Bag In Colorblock With Snakeskin Detail"
+      },
+      "rating": 4.0,
+      "reviewCount": 36
+    },
+    {
+      "id": "CH857 B4/HA",
+      "masterId": "CH857",
+      "name": "Tabby Shoulder Bag 26",
+      "price": "475.00",
+      "url": null,
+      "linkable": false,
+      "image": {
+        "src": "https://coach.scene7.com/is/image/Coach/ch857_b4ha_a0",
+        "alt": "Tabby Shoulder Bag 26 in Brass/Chalk"
+      },
+      "rating": 4.8,
+      "reviewCount": 444
+    },
+    {
+      "id": "CAM16 B4MPL",
+      "masterId": "CAM16",
+      "name": "Teri Hobo Bag",
+      "price": "395.00",
+      "url": null,
+      "linkable": false,
+      "image": {
+        "src": "https://coach.scene7.com/is/image/Coach/cam16_b4mpl_a0",
+        "alt": "Teri Hobo Bag"
+      },
+      "rating": 4.6,
+      "reviewCount": 212
+    },
+    {
+      "id": "CY921 B4/BK",
+      "masterId": "CY921",
+      "name": "Brooklyn Shoulder Bag 34",
+      "price": "495.00",
+      "salePrice": "371.25",
+      "discountPercent": 25,
+      "url": null,
+      "linkable": false,
+      "image": {
+        "src": "https://coach.scene7.com/is/image/Coach/cy921_b4bk_a0",
+        "alt": "Brooklyn Shoulder Bag 34"
+      },
+      "rating": 4.5,
+      "reviewCount": 89
+    },
+    {
+      "id": "CW632 B4/OL",
+      "masterId": "CW632",
+      "name": "Gramercy Tote Bag 22",
+      "price": "375.00",
+      "salePrice": "281.25",
+      "discountPercent": 25,
+      "url": null,
+      "linkable": false,
+      "image": {
+        "src": "https://coach.scene7.com/is/image/Coach/cw632_b4ol_a0",
+        "alt": "Gramercy Tote Bag 22"
+      },
+      "rating": 4.4,
+      "reviewCount": 67
+    },
+    {
+      "id": "CCD99 LHBLK",
+      "masterId": "CCD99",
+      "name": "Lana Shoulder Bag 23",
+      "price": "395.00",
+      "url": null,
+      "linkable": false,
+      "image": {
+        "src": "https://coach.scene7.com/is/image/Coach/ccd99_lhblk_a0",
+        "alt": "Lana Shoulder Bag 23"
+      },
+      "rating": 4.3,
+      "reviewCount": 54
+    },
+    {
+      "id": "CR699 LHCHK",
+      "masterId": "CR699",
+      "name": "Rogue Bag 25",
+      "price": "595.00",
+      "url": null,
+      "linkable": false,
+      "image": {
+        "src": "https://coach.scene7.com/is/image/Coach/cr699_lhchk_a0",
+        "alt": "Rogue Bag 25"
+      },
+      "rating": 4.9,
+      "reviewCount": 301
+    },
+    {
+      "id": "CP149 B4MPL",
+      "masterId": "CP149",
+      "name": "Morgan Square Crossbody",
+      "price": "295.00",
+      "url": null,
+      "linkable": false,
+      "image": {
+        "src": "https://coach.scene7.com/is/image/Coach/cp149_b4mpl_a0",
+        "alt": "Morgan Square Crossbody"
+      },
+      "rating": 4.2,
+      "reviewCount": 41
+    },
+    {
+      "id": "CAF55 B4MPL",
+      "masterId": "CAF55",
+      "name": "Klare Crossbody",
+      "price": "275.00",
+      "url": null,
+      "linkable": false,
+      "image": {
+        "src": "https://coach.scene7.com/is/image/Coach/caf55_b4mpl_a0",
+        "alt": "Klare Crossbody"
+      },
+      "rating": 4.1,
+      "reviewCount": 28
+    },
+    {
+      "id": "CDT21 B4S0M",
+      "masterId": "CDT21",
+      "name": "Waverly Bucket Bag",
+      "price": "325.00",
+      "url": null,
+      "linkable": false,
+      "image": {
+        "src": "https://coach.scene7.com/is/image/Coach/cdt21_b4s0m_a0",
+        "alt": "Waverly Bucket Bag"
+      },
+      "rating": 4.0,
+      "reviewCount": 19
+    }
+  ]
+}

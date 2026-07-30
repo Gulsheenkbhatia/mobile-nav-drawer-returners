@@ -7,7 +7,7 @@ import type { NavReturnerStackEntry } from '../store/navReturnerState'
 export function useDrillReturnerSelect(
   brand: BrandId,
   stack: NavReturnerStackEntry[],
-  onAfterSelect?: () => void,
+  onAfterSelect?: (link: MenuLink) => void,
 ) {
   const returner = useOptionalNavReturner()
 
@@ -15,7 +15,7 @@ export function useDrillReturnerSelect(
     (link: MenuLink) => {
       if (!returner) return
       returner.recordNavLinkVisit({ link, brand, stack })
-      onAfterSelect?.()
+      onAfterSelect?.(link)
     },
     [returner, brand, stack, onAfterSelect],
   )
