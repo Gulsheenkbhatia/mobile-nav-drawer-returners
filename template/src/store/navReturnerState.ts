@@ -145,6 +145,17 @@ export function clearNavReturner(): void {
   }
 }
 
+/** Clear returner highlight + PLP restore anchor; keep current drill position. */
+export function clearReturnerHighlight(): void {
+  const existing = readNavReturnerState()
+  if (!existing?.selection) return
+  saveNavReturnerState({
+    brand: existing.brand,
+    drillStack: existing.drillStack,
+    selection: null,
+  })
+}
+
 export function getNavReturnerForBrand(
   brand: BrandId,
 ): NavReturnerPersistedState | null {

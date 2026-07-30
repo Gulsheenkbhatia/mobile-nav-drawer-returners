@@ -10,6 +10,7 @@ import type { BrandId } from './NavSearchExposed'
 import type { MenuLink } from '../../data/mobileMenuData'
 import {
   clearNavReturner,
+  clearReturnerHighlight as clearReturnerHighlightState,
   getNavReturnerForBrand,
   readNavReturner,
   readNavReturnerState,
@@ -43,6 +44,7 @@ type NavReturnerContextValue = {
   recordNavLinkVisit: (payload: NavLinkNavigatePayload) => void
   saveDrillPosition: (brand: BrandId, drillStack: NavReturnerStackEntry[]) => void
   clearReturner: () => void
+  clearReturnerHighlight: () => void
   getRestoredDrillStack: (brand: BrandId) => NavReturnerStackEntry[] | null
   /** @deprecated Use getRestoredDrillStack */
   getRestoredStack: (brand: BrandId) => NavReturnerStackEntry[] | null
@@ -97,6 +99,11 @@ export function NavReturnerProvider({ children }: { children: ReactNode }) {
     setSelection(null)
   }, [])
 
+  const clearReturnerHighlight = useCallback(() => {
+    clearReturnerHighlightState()
+    setSelection(null)
+  }, [])
+
   const getRestoredDrillStack = useCallback((brand: BrandId) => {
     const state = getNavReturnerForBrand(brand)
     if (!state) return null
@@ -120,6 +127,7 @@ export function NavReturnerProvider({ children }: { children: ReactNode }) {
       recordNavLinkVisit,
       saveDrillPosition,
       clearReturner,
+      clearReturnerHighlight,
       getRestoredDrillStack,
       getRestoredStack,
     }),
@@ -129,6 +137,7 @@ export function NavReturnerProvider({ children }: { children: ReactNode }) {
       recordNavLinkVisit,
       saveDrillPosition,
       clearReturner,
+      clearReturnerHighlight,
       getRestoredDrillStack,
       getRestoredStack,
     ],

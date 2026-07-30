@@ -26,8 +26,9 @@ export function getEffectiveDrillDepth(
 }
 
 /**
- * Returner row id for the current drill depth — highlights the clicked row at its
- * tier, and parent path entries when backing up (coach.com returner screenshots).
+ * Returner row id for the current drill depth — highlights only the terminal link
+ * row at the exact tier where the user left the nav (PLP round-trip). Parent T1/T2
+ * rows are not highlighted when the user drills back within the drawer.
  */
 export function getReturnerHighlightId(
   depth: NavReturnerDepth,
@@ -39,17 +40,16 @@ export function getReturnerHighlightId(
 
   const targetDepth = depthToNumber(depth)
   if (drillDepth !== targetDepth) return null
+  if (selection.clickedDepth !== targetDepth) return null
 
-  const { linkId, stack, clickedDepth } = selection
+  const { linkId, stack } = selection
 
   if (context?.categoryId && stack[0]?.id !== context.categoryId) return null
   if (depth === 'l3' && context?.subCategoryId && stack[1]?.id !== context.subCategoryId) {
     return null
   }
 
-  if (clickedDepth === targetDepth) return linkId
-  if (clickedDepth > targetDepth) return stack[targetDepth]?.id ?? null
-  return null
+  return linkId
 }
 
 export function isNavLinkReturnerHighlight(

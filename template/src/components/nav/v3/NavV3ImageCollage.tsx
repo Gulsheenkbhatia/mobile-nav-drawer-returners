@@ -524,7 +524,7 @@ function DrilldownBody({
   onClose: () => void
   onTerminalLinkClick?: (link: MenuLink, stack: NavReturnerStackEntry[]) => void
 }) {
-  const { selection, recordNavSelection, saveDrillPosition, getRestoredDrillStack } =
+  const { selection, saveDrillPosition, getRestoredDrillStack, clearReturnerHighlight } =
     useNavReturner()
   const [stack, setStack] = useState<DrillStackEntry[]>([])
   const [l1ListEnterKey, setL1ListEnterKey] = useState(0)
@@ -738,8 +738,9 @@ function DrilldownBody({
     if (stackRef.current) {
       setExitStackHeight(stackRef.current.offsetHeight)
     }
+    clearReturnerHighlight()
     popStack()
-  }, [popStack])
+  }, [clearReturnerHighlight, popStack])
 
   /** L1 scroll — save on drill-in; restore when L2 slides away; defer stack height reset. */
   useEffect(() => {
@@ -768,13 +769,6 @@ function DrilldownBody({
     if (menuBodyRef.current) {
       l1ScrollTopRef.current = menuBodyRef.current.scrollTop
     }
-    recordNavSelection({
-      linkId: categoryId,
-      label: title,
-      brand: menuBrand,
-      stack: [{ id: categoryId, title }],
-      clickedDepth: 0,
-    })
     setL1ShouldEnter(false)
     setL2ShouldEnter(true)
     setL3ShouldEnter(false)
@@ -784,17 +778,7 @@ function DrilldownBody({
   }
 
   const pushSubCategory = (subId: string, title: string) => {
-    setStack((current) => {
-      const next = [...current, { id: subId, title }]
-      recordNavSelection({
-        linkId: subId,
-        label: title,
-        brand: menuBrand,
-        stack: next,
-        clickedDepth: 1,
-      })
-      return next
-    })
+    setStack((current) => [...current, { id: subId, title }])
     setL2ShouldEnter(false)
     setL3ShouldEnter(true)
     setL3StaggerReady(false)
