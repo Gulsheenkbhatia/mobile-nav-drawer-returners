@@ -1,5 +1,15 @@
 {
   "categoryName": "View All Handbags",
+  "categoryPills": [
+    "New",
+    "Shoulder Bags",
+    "Totes",
+    "Crossbody Bags",
+    "Backpacks",
+    "Satchels",
+    "View All"
+  ],
+  "activeCategoryPill": "View All",
   "breadcrumbs": [
     { "label": "Women", "href": "/shop/women" },
     { "label": "Handbags", "href": "/shop/women/handbags" },

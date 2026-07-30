@@ -1,5 +1,14 @@
 {
   "categoryName": "Sneakers for Women",
+  "categoryPills": [
+    "View All",
+    "Sandals",
+    "Sneakers",
+    "Flats & Loafers",
+    "Heels",
+    "Boots & Booties"
+  ],
+  "activeCategoryPill": "Sneakers",
   "breadcrumbs": [
     { "label": "Women", "href": "/shop/women" },
     { "label": "Shoes", "href": "/shop/women/shoes" },

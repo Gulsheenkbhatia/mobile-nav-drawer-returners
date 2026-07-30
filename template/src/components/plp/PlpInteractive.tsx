@@ -71,7 +71,12 @@ export function PlpInteractive({ data }: PlpInteractiveProps) {
 
   return (
     <>
-      <PlpCategoryStrip title={data.categoryName} count={countLabel} />
+      <PlpCategoryStrip
+        title={data.categoryName}
+        count={countLabel}
+        categories={data.categoryPills}
+        activeCategory={data.activeCategoryPill}
+      />
 
       <div className={styles.filterSortRow}>
         <button

@@ -35,5 +35,7 @@ export function resolvePlpPageData(
     breadcrumbs,
     totalCount: base.totalCount,
     products: base.products,
+    categoryPills: base.categoryPills,
+    activeCategoryPill: base.activeCategoryPill,
   }
 }

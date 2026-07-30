@@ -1,22 +1,19 @@
 import styles from './PlpCategoryStrip.module.css'
 
-const CATEGORIES = [
-  'New',
-  'Shoulder Bags',
-  'Totes',
-  'Crossbody Bags',
-  'Backpacks',
-  'Satchels',
-  'View All',
-]
-
 type PlpCategoryStripProps = {
   title: string
   count: string
+  categories: string[]
+  activeCategory?: string
 }
 
 /** PLP title + category pills — no duplicate brand tab bar (header is NavSearchExposed). */
-export function PlpCategoryStrip({ title, count }: PlpCategoryStripProps) {
+export function PlpCategoryStrip({
+  title,
+  count,
+  categories,
+  activeCategory,
+}: PlpCategoryStripProps) {
   return (
     <>
       <div className={styles.title}>
@@ -27,8 +24,13 @@ export function PlpCategoryStrip({ title, count }: PlpCategoryStripProps) {
       <div className={styles.pillsWrap}>
         <span className={styles.fadeLeft} aria-hidden="true" />
         <nav className={styles.pills} aria-label="Categories">
-          {CATEGORIES.map((cat) => (
-            <button key={cat} type="button" className={styles.pill}>
+          {categories.map((cat) => (
+            <button
+              key={cat}
+              type="button"
+              className={styles.pill}
+              aria-current={cat === activeCategory ? 'page' : undefined}
+            >
               {cat}
             </button>
           ))}

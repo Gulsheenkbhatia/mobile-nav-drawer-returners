@@ -26,4 +26,6 @@ export type PlpPageData = {
   breadcrumbs: { label: string; href?: string }[]
   totalCount: number
   products: PlpProduct[]
+  categoryPills: string[]
+  activeCategoryPill?: string
 }
